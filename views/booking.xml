@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <menuitem id="menu_booking" name="Booking" parent="sales_team.menu_base_partner" sequence="6"/>
+
+    <menuitem id="menu_booking_order" name="Booking Order"
+            parent="menu_booking"
+            action="menu_booking_order_action" sequence="15"/>
+    
+    <menuitem id="menu_work_order" name="Work Order"
+            parent="menu_booking"
+            action="menu_work_order_action" sequence="16"/>
+    
+    <menuitem id="menu_teams_order" name="Teams"
+            parent="menu_booking"
+            action="menu_teams_order_action" sequence="17"/>
+
+    
+
+        <record id="view_booking_order_calendar" model="ir.ui.view">
+            <field name="name">booking.order.calendar</field>
+            <field name="model">booking.order</field>
+            <field name="arch" type="xml">
+                <calendar string="booking Orders">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="booking_order_tree" model="ir.ui.view">
+            <field name="name">booking.order.tree</field>
+            <field name="model">booking.order</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Booking Order">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Quotation Number"/>
+                    <field name="date_order"/>
+                    <field name="partner_id"/>
+                    <field name="user_id"/>
+                    <field name="amount_total" sum="Total Tax Included" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="booking_order_form" model="ir.ui.view">
+            <field name="name">booking.order.form</field>
+            <field name="model">booking.order</field>
+            <field name="arch" type="xml">
+                <form string="Booking Order">
+                   <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="team_leader_id"/>
+                        </group>
+                    </group>
+                     <notebook>
+                        <page string="Empolyee Lines">
+                                <field name="employees_ids" mode="tree">
+                                    <form string="Employee Lines">
+                                        <group>
+                                            <group>  
+                                                <field name="name"/>
+                                            </group>
+                                    </form>
+                                    <tree string="Employee Lines" editable="bottom" >
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                        </page>          
+                    </notebook>
+                    <notebook>
+                        <page string="Equipment Lines">
+                                <field name="equipments_ids" mode="tree">
+                                    <form string="Equipment Lines">
+                                        <group>
+                                            <group>  
+                                                <field name="name"/>
+                                            </group>
+                                    </form>
+                                    <tree string="Equipment Lines" editable="bottom" >
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                        </page>          
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="menu_booking_order_action" model="ir.actions.act_window">
+            <field name="name">Booking Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.order</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('is_booking', '=', 'True')
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+        <record id="menu_work_order_action" model="ir.actions.act_window">
+            <field name="name">Work Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">work.order</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('work_booking_ok', '=', 'True')
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+        <record id="menu_teams_order_action" model="ir.actions.act_window">
+            <field name="name">Teams</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">teams.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+</odoo>
